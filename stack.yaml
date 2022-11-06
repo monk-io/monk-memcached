@@ -1,0 +1,17 @@
+namespace: memcached
+
+stack:
+  defines: process-group
+  runnable-list:
+    - memcached/memcached
+  variables:
+    memcached-image-tag: "latest"
+    memcached-cache-size: 128
+    memcached-max-connections: 2000
+    memcached-threads: 4
+    memcached-max-item-size: 8388608
+    memcached-username: "my_user"
+    memcached-password: "my_password"
+    memcached-extra-flags: ""
+    
+    

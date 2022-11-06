@@ -1,0 +1,57 @@
+namespace: memcached
+
+
+memcached:
+  defines: runnable
+  metadata:
+    defines: metadata
+    name: memcached
+    description: Memcached is an high-performance, distributed memory object caching system, generic in nature, but intended for use in speeding up dynamic web applications by alleviating database load.
+    tags: database, SQL, open-source
+    website: https://github.com/memcached/memcached
+    source: https://github.com/memcached/memcached
+    publisher: "monk.io"
+    icon: https://avatars.githubusercontent.com/u/41836?s=200&v=4  
+  containers:
+    defines: containers
+    memcached:  
+      image: bitnami/memcached
+      image-tag: <- `${memcached-image}`
+      ports:
+        - '11211:11211'
+  variables:
+    defines: variables
+    volume-data:
+      type: string
+      value: <- `${monk-volume-path}/memcached`
+    memcached-image:
+      value: <- $memcached-image-tag
+      type: string
+    memcached_cache_size:
+      value: <- $memcached-cache-size
+      type: int
+      env: MEMCACHED_CACHE_SIZE
+    memcached_max_connections:
+      value: <- $memcached-max-connections
+      type: int
+      env: MEMCACHED_MAX_CONNECTIONS
+    memcached_threads:
+      value: <- $memcached-threads
+      type: int
+      env: MEMCACHED_THREADS
+    memcached_max_item_size:
+      value: <- $memcached-max-item-size
+      type: int
+      env: MEMCACHED_MAX_ITEM_SIZE
+    memcached_username:
+      value: <- $memcached-username
+      type: string
+      env: MEMCACHED_USERNAME
+    memcached_password:
+      value: <- $memcached-password
+      type: string
+      env: MEMCACHED_PASSWORD
+    memcached_extra_flags:
+      value: <- $memcached-extra-flags
+      type: string
+      env: MEMCACHED_EXTRA_FLAGS

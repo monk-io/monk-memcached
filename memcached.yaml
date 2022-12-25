@@ -11,7 +11,13 @@ memcached:
     website: https://github.com/memcached/memcached
     source: https://github.com/memcached/memcached
     publisher: "monk.io"
-    icon: https://avatars.githubusercontent.com/u/41836?s=200&v=4  
+    icon: https://avatars.githubusercontent.com/u/41836?s=200&v=4
+  services:
+    memcached:
+      container: memcached
+      port: 11211
+      protocol: tcp
+      host-port: 11211    
   containers:
     defines: containers
     memcached:  

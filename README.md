@@ -2,10 +2,9 @@
 
 This repository contains Monk.io template to deploy Memcached system either locally or on cloud of your choice (AWS, GCP, Azure, Digital Ocean).
 
-
 ## Start
 
-Set up Monk - https://docs.monk.io/docs/monk-in-10/
+Set up Monk - [https://docs.monk.io/docs/monk-in-10/](https://docs.monk.io/docs/monk-in-10/)
 
 Start `monkd` and login.
 
@@ -15,7 +14,8 @@ monk login --email=<email> --password=<password>
 
 ## Clone Monk Memcached repository
 
-In order to load templates and change configuration simply use below commands: 
+In order to load templates and change configuration simply use below commands:
+
 ```bash
 git clone https://github.com/monk-io/monk-memcached
 
@@ -42,49 +42,45 @@ The current variables can be found in `memcached/stack/variables` section
     memcached-extra-flags: ""
 ```
 
+## Template variables
 
-##  Template variables
-
-| Variable | Description | Type | Example |
-|----------|-------------|------|---------|
-| **memcached-image-tag** | Memcached image version. | string | latest |
-| **memcached-cache-size** | Cache size in MB. | int | 128 |
-| **memcached-max-connections** |  Maximum int of concurrent connections . | int | 2000 |
-| **memcached-threads** | Amount of threads for which to process requests for  | int | 4 |
-| **memcached-max-item-size** | Max item size . | int | 8388608 |
-| **memcached-username** | Memcached admin user. | string | my_user |
-| **memcached-password** | Memcached admin user password. | string | my_password |
-| **memcached-extra-flags** | Passing extra command-line flags. | string | "" |
-
-
+| Variable                      | Description                                         | Type   | Example     |
+| ----------------------------- | --------------------------------------------------- | ------ | ----------- |
+| **memcached-image-tag**       | Memcached image version.                            | string | latest      |
+| **memcached-cache-size**      | Cache size in MB.                                   | int    | 128         |
+| **memcached-max-connections** | Maximum int of concurrent connections .             | int    | 2000        |
+| **memcached-threads**         | Amount of threads for which to process requests for | int    | 4           |
+| **memcached-max-item-size**   | Max item size .                                     | int    | 8388608     |
+| **memcached-username**        | Memcached admin user.                               | string | my_user     |
+| **memcached-password**        | Memcached admin user password.                      | string | my_password |
+| **memcached-extra-flags**     | Passing extra command-line flags.                   | string | ""          |
 
 ## Local Deployment
 
-First clone the repository simply run below command after launching `monkd`:
-:
+| First clone the repository simply run below command after launching `monkd`: |
+| :--------------------------------------------------------------------------: |
 
 ```bash
 ➜  monk load MANIFEST
+✔ Read files successfully
+✔ Loaded memcached.yaml successfully
 
+Loaded 2 runnables, 0 process groups, 0 services, 0 entities and 0 entity instances
 ✨ Loaded:
- ├─🔩 Runnables:
- │  └─🧩 memcached/memcached
- ├─🔗 Process groups:
- │  └─🧩 memcached/stack
- └─⚙️ Entity instances:
-    └─🧩 memcached/memcached/metadata
+ └─🔩 Runnables:
+    ├─🧩 memcached/memcached
+    └─🧩 memcached/base
 ✔ All templates loaded successfully
-➜  monk list -l memcached
 
+➜  monk list -l memcached
 ✔ Got the list
 Type      Template             Repository  Version  Tags
-runnable  memcached/memcached  local       -        database, SQL, open-source
-group     memcached/stack      local       -        -
+runnable  memcached/base       local       -        Memcached, Distributed Caching, In-Memory Cache, High-Performance, Scalability, Key-Value Store, Open Source, Data Retrieval, Web Caching, Cache Management, Server-Side Caching, API Caching, Cloud Computing, Microservices, NoSQL
+runnable  memcached/memcached  local       -        Memcached, Distributed Caching, In-Memory Cache, High-Performance, Scalability, Key-Value Store, Open Source, Data Retrieval, Web Caching, Cache Management, Server-Side Caching, API Caching, Cloud Computing, Microservices, NoSQL
 
+➜  monk run  memcached/memcached
 
-➜  monk run  memcached/stack
-
-✔ Started local/memcached/stack
+✔ Started local/memcached/memcached
 
 ```
 
@@ -130,34 +126,6 @@ Your cluster has been created successfully.
 ✔ Cluster grown successfully
 ```
 
-Once cluster is ready execute the same command as for local and select your cluster (the option will appear automatically).
-
-
-```bash
-➜  monk load MANIFEST
-
-✨ Loaded:
- ├─🔩 Runnables:
- │  └─🧩 memcached/memcached
- ├─🔗 Process groups:
- │  └─🧩 memcached/stack
- └─⚙️ Entity instances:
-    └─🧩 memcached/memcached/metadata
-✔ All templates loaded successfully
-➜  monk list -l memcached
-
-✔ Got the list
-Type      Template             Repository  Version  Tags
-runnable  memcached/memcached  local       -        database, SQL, open-source
-group     memcached/stack      local       -        -
-
-
-➜  monk run  memcached/stack
-
-✔ Started local/memcached/stack
-
-```
-
 ## Logs & Shell
 
 ```bash
@@ -172,8 +140,7 @@ group     memcached/stack      local       -        -
 ## Stop, remove and clean up workloads and templates
 
 ```bash
-➜ monk purge -x memcached/stack memcached/memcached
+➜ monk purge -x  memcached/memcached
 
-✔ memcached/stack purged
 ✔ memcached/memcached purged
 ```

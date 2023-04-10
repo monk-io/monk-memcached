@@ -1,63 +1,74 @@
+---
 namespace: memcached
 
+base:
+  defines: runnable
+  metadata:
+    name: memcached
+    shortname: memcached
+    description: |
+      Memcached is a distributed, high-performance, open-source caching system designed for use in speeding up dynamic web applications. It uses an in-memory caching mechanism to store frequently accessed data, such as database query results, API responses, and session data, allowing for faster data retrieval and reduced latency.
+
+      Memcached works by storing data in a key-value store, allowing for easy retrieval of the data by a unique key. It is designed to be highly scalable and can be used across multiple servers in a distributed environment to ensure maximum performance and scalability. This makes it an ideal solution for use in cloud computing and microservices environments.
+
+      Memcached can be easily integrated into existing applications, making it a popular choice for developers looking to improve the performance of their web applications. It provides a simple API for storing and retrieving data, making it easy to manage the cache and ensure that data is stored and retrieved efficiently.
+
+      Overall, Memcached is an essential tool for developers looking to improve the performance of their web applications. Its high-performance, distributed caching mechanism, and simple API make it an ideal solution for managing data in web applications, improving scalability, and reducing latency.
+    tags: Memcached, Distributed Caching, In-Memory Cache, High-Performance, Scalability, Key-Value Store, Open Source, Data Retrieval, Web Caching, Cache Management, Server-Side Caching, API Caching, Cloud Computing, Microservices, NoSQL
+    website: https://github.com/memcached/memcached
+    source: https://github.com/memcached/memcached
+    publisher: monk.io
+    icon: https://avatars.githubusercontent.com/u/41836?s=200&v=4
+    version: 1.0
+    private: true
+  containers:
+    memcached:
+      image: bitnami/memcached
+      image-tag: latest
 
 memcached:
   defines: runnable
+  inherits: memcached/base
   metadata:
-    defines: metadata
-    name: memcached
-    description: Memcached is an high-performance, distributed memory object caching system, generic in nature, but intended for use in speeding up dynamic web applications by alleviating database load.
-    tags: database, SQL, open-source
-    website: https://github.com/memcached/memcached
-    source: https://github.com/memcached/memcached
-    publisher: "monk.io"
-    icon: https://avatars.githubusercontent.com/u/41836?s=200&v=4
+    private: false
+  containers:
+    memcached:
+      image-tag: <- `${memcached-image}`
   services:
     memcached:
       container: memcached
       port: 11211
       protocol: tcp
-      host-port: 11211    
-  containers:
-    defines: containers
-    memcached:  
-      image: bitnami/memcached
-      image-tag: <- `${memcached-image}`
-      ports:
-        - '11211:11211'
+      host-port: 11211
   variables:
-    defines: variables
-    volume-data:
-      type: string
-      value: <- `${monk-volume-path}/memcached`
     memcached-image:
-      value: <- $memcached-image-tag
+      value: latest
       type: string
     memcached_cache_size:
-      value: <- $memcached-cache-size
+      value: 128
       type: int
       env: MEMCACHED_CACHE_SIZE
     memcached_max_connections:
-      value: <- $memcached-max-connections
+      value: 2000
       type: int
       env: MEMCACHED_MAX_CONNECTIONS
     memcached_threads:
-      value: <- $memcached-threads
+      value: 4
       type: int
       env: MEMCACHED_THREADS
     memcached_max_item_size:
-      value: <- $memcached-max-item-size
+      value: 8388608
       type: int
       env: MEMCACHED_MAX_ITEM_SIZE
     memcached_username:
-      value: <- $memcached-username
+      value: monk
       type: string
       env: MEMCACHED_USERNAME
     memcached_password:
-      value: <- $memcached-password
+      value: monk
       type: string
       env: MEMCACHED_PASSWORD
     memcached_extra_flags:
-      value: <- $memcached-extra-flags
+      value: ''
       type: string
       env: MEMCACHED_EXTRA_FLAGS

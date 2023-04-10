@@ -1,2 +1,2 @@
-REPO monk-memcached
-LOAD memcached.yaml stack.yaml
+REPO memcached
+LOAD memcached.yaml

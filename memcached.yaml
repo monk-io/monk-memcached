@@ -39,7 +39,6 @@ memcached:
       container: memcached
       port: 11211
       protocol: tcp
-      host-port: 11211
   variables:
     memcached-image:
       value: latest

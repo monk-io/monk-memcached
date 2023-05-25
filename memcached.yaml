@@ -14,7 +14,7 @@ base:
       Memcached can be easily integrated into existing applications, making it a popular choice for developers looking to improve the performance of their web applications. It provides a simple API for storing and retrieving data, making it easy to manage the cache and ensure that data is stored and retrieved efficiently.
 
       Overall, Memcached is an essential tool for developers looking to improve the performance of their web applications. Its high-performance, distributed caching mechanism, and simple API make it an ideal solution for managing data in web applications, improving scalability, and reducing latency.
-    tags: Memcached, Distributed Caching, In-Memory Cache, High-Performance, Scalability, Key-Value Store, Open Source, Data Retrieval, Web Caching, Cache Management, Server-Side Caching, API Caching, Cloud Computing, Microservices, NoSQL
+    tags: data retrieval, server-side caching, in-memory cache, web caching, microservices, scalability, cache management, memcached, high-performance, key-value store, api caching, nosql, distributed caching, open source
     website: https://github.com/memcached/memcached
     source: https://github.com/memcached/memcached
     publisher: monk.io

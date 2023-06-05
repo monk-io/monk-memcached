@@ -33,7 +33,7 @@ memcached:
     private: false
   containers:
     memcached:
-      image-tag: <- `${memcached-image}`
+      image-tag: <- $memcached-image
   services:
     memcached:
       container: memcached

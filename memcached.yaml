@@ -23,7 +23,7 @@ base:
     private: true
   containers:
     memcached:
-      image: bitnami/memcached
+      image: bitnamilegacy/memcached
       image-tag: latest
 
 memcached:

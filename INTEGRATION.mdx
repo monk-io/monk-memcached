@@ -1,0 +1,134 @@
+---
+title: Memcached
+description: Ready-to-run Memcached container template you can run directly or inherit to integrate a high-performance distributed memory caching system into your stack.
+primary_category: cache
+tags: [memcached, cache, memory, template, runnable, distributed, performance]
+integration_type: template
+hosting_models: [self-hosted]
+website_url: https://memcached.org/
+docs_url: https://github.com/memcached/memcached/wiki
+publisher: monk.io
+---
+
+## Overview
+
+This template provides a production‑ready Memcached instance as a Monk runnable. You can:
+
+- Run it directly to get a managed Memcached container with sensible defaults
+- Inherit it in your own runnable to seamlessly add a distributed memory cache to your stack
+
+It exposes Memcached on port 11211, supports authentication, and allows fine-tuning of cache size, connections, threads, and item size limits.
+
+## What this template manages
+
+- Memcached container (`bitnamilegacy/memcached` image, configurable tag)
+- Network service on port 11211
+- Memory allocation and cache management
+- Optional authentication with username and password
+- Performance tuning via threads, connections, and cache size
+
+## Quick start (run directly)
+
+1) Load templates
+
+```bash
+monk load MANIFEST
+```
+
+2) Run Memcached with defaults
+
+```bash
+monk run memcached/memcached
+```
+
+3) Customize configuration (recommended via inheritance)
+
+Running directly uses the defaults defined in this template's `variables`. Secrets added with `monk secrets add` will not affect this runnable unless you inherit it and reference those secrets.
+
+- Preferred: inherit and replace variables with `secret("...")` as shown below.
+- Alternative: fork/clone and edit the `variables` in `memcached/memcached.yaml`, then `monk load MANIFEST` and run.
+
+Once started, connect to `localhost:11211` (or the runnable hostname inside Monk networks) using the configured credentials.
+
+## Configuration
+
+Key variables you can customize in this template:
+
+```yaml
+variables:
+  memcached-image: "latest"            # container image tag
+  memcached_cache_size: 128            # cache size in MB (env: MEMCACHED_CACHE_SIZE)
+  memcached_max_connections: 2000      # max simultaneous connections (env: MEMCACHED_MAX_CONNECTIONS)
+  memcached_threads: 4                 # number of worker threads (env: MEMCACHED_THREADS)
+  memcached_max_item_size: 8388608     # max item size in bytes (env: MEMCACHED_MAX_ITEM_SIZE)
+  memcached_username: "monk"           # authentication username (env: MEMCACHED_USERNAME)
+  memcached_password: "monk"           # authentication password (env: MEMCACHED_PASSWORD)
+  memcached_extra_flags: ""            # additional flags for memcached (env: MEMCACHED_EXTRA_FLAGS)
+```
+
+## Use by inheritance (recommended for apps)
+
+Inherit the Memcached runnable in your application and declare a connection. Example:
+
+```yaml
+namespace: myapp
+cache:
+  defines: runnable
+  inherits: memcached/memcached
+api:
+  defines: runnable
+  containers:
+    api:
+      image: myorg/api
+  connections:
+    cache:
+      runnable: cache
+      service: memcached
+  variables:
+    cache-host:
+      value: <- connection-hostname("cache")
+    cache-user:
+      value: <- secret("memcached-user")
+    cache-password:
+      value: <- secret("memcached-password")
+```
+
+Then set the secrets once and run your app group:
+
+```bash
+monk secrets add -g memcached-user="cacheuser"
+monk secrets add -g memcached-password="STRONG_CACHE_PASSWORD"
+monk run myapp/api
+```
+
+## Ports and connectivity
+
+- Service: `memcached` on TCP port `11211`
+- From other runnables in the same process group, use `connection-hostname("<connection-name>")` to resolve the cache host.
+
+## Features
+
+- Simple key-value storage
+- Fast in-memory caching
+- Distributed architecture
+- Multiple client libraries
+- LRU eviction policy
+- Configurable cache size and performance tuning
+- Optional authentication support
+
+## Related templates
+
+- See other templates in this repository for complementary services
+- Combine with monitoring tools (`prometheus-grafana/`) for observability
+- Integrate with your application stack as needed
+
+## Troubleshooting
+
+- If you changed `memcached_password` after initial setup, ensure your client applications use the updated credentials.
+- Adjust `memcached_cache_size` if you're experiencing evictions or have available memory.
+- Increase `memcached_max_connections` if you're seeing connection refused errors under high load.
+- Check logs:
+
+```bash
+monk logs -l 500 -f memcached/memcached
+```
